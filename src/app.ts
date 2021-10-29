@@ -2,7 +2,8 @@ import * as yargs from 'yargs';
 import { UDPServer } from './server/UDPServer';
 import { RadiusService } from './radius/RadiusService';
 
-import * as config from '../config';
+//import * as config from './config';
+import { config } from './config';
 import { Authentication } from './auth';
 import { IAuthentication } from './types/Authentication';
 import { startTLSServer } from './tls/crypt';
