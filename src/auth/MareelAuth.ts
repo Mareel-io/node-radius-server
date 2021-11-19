@@ -8,8 +8,10 @@ interface IMareelAuthOptions {
 
 export class MareelAuth implements IAuthentication {
     private api: AxiosInstance;
+    private token: string;
     
     constructor(options: IMareelAuthOptions) {
+        this.token = options.token;
         this.api = axios.create({
             headers: {
                 Authorization: `${options.token}`,
@@ -23,6 +25,7 @@ export class MareelAuth implements IAuthentication {
             const res = await this.api.post('/v1/mareel_keys/verify', {
                 email: username,
                 password: password,
+                token: this.token,
             });
 
             // TODO: Check the return value.
