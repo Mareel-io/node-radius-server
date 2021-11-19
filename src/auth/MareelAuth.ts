@@ -1,5 +1,5 @@
 import { IAuthentication } from '../types/Authentication';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 interface IMareelAuthOptions {
     url: string,
@@ -7,11 +7,31 @@ interface IMareelAuthOptions {
 }
 
 export class MareelAuth implements IAuthentication {
-        constructor(options: IMareelAuthOptions) {
+    private api: AxiosInstance;
+    
+    constructor(options: IMareelAuthOptions) {
+        this.api = axios.create({
+            headers: {
+                Authorization: `${options.token}`,
+            },
+            baseURL: options.url,
+        });
+    }
+    
+    async authenticate(username: string, password: string) {
+        try {
+            const res = await this.api.post('/v1/mareel_keys/verify', {
+                email: username,
+                password: password,
+            });
+
+            // TODO: Check the return value.
+
+            return true;
+        } catch(e) {
+            // Eat up the error
         }
 
-        async authenticate(username: string, password: string) {
-            // TODO: Implement auth
-            return true;
-        }
+        return false;
+    }
 }
